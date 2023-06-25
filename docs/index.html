@@ -36,7 +36,9 @@
             getDoc(docRef)
                 .then((doc) => {
                     if (doc.exists()) {
-                        document.getElementById("output").innerText = "Document data: " + JSON.stringify(doc.data());
+                        const data = doc.data();
+                        const output = "DOCUMENT DATA: \n" + data.title + "\n" + data.content;
+                        document.getElementById("output").innerText = output;
                     } else {
                         document.getElementById("output").innerText = "No such document!";
                     }

@@ -4,8 +4,10 @@
     <title>Wahoozle Notes</title>
 </head>
 <body>
-    <button id="readButton">Read</button>
+    <input type="text" id="textInput" placeholder="Enter note content">
     <button id="writeButton">Write</button>
+    <button id="readButton">Read</button>
+    <div id="output"></div>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
@@ -15,13 +17,13 @@
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-            apiKey: "AIzaSyADrp41pTY-d3PQqlMWy7tzRbzrnyVanmo",
-            authDomain: "wahoozle-notes.firebaseapp.com",
-            projectId: "wahoozle-notes",
-            storageBucket: "wahoozle-notes.appspot.com",
-            messagingSenderId: "617928755653",
-            appId: "1:617928755653:web:cdd5487ff4184b64c163ac",
-            measurementId: "G-4JTE3ZCL1M"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
         };
     
         // Initialize Firebase
@@ -34,21 +36,22 @@
             getDoc(docRef)
                 .then((doc) => {
                     if (doc.exists()) {
-                        console.log("Document data:", doc.data());
+                        document.getElementById("output").innerText = "Document data: " + JSON.stringify(doc.data());
                     } else {
-                        console.log("No such document!");
+                        document.getElementById("output").innerText = "No such document!";
                     }
                 })
                 .catch((error) => {
-                    console.log("Error getting document:", error);
+                    document.getElementById("output").innerText = "Error getting document: " + error;
                 });
         }
         
         function writeFunc() {
-            const docRef = doc(firestore, "notes", "note1"); // Assuming "notes" is the collection name and "note1" is the document ID
+            const docRef = doc(firestore, "notes", "note1"); 
+            const textInput = document.getElementById("textInput");
             const data = {
                 title: "My Note",
-                content: "This is my note content."
+                content: textInput.value
             };
             setDoc(docRef, data)
                 .then(() => {
